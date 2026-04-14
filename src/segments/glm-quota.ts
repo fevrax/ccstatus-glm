@@ -34,9 +34,9 @@ export const glmQuotaSegment: Segment = {
     }
 
     return {
-      icon: '\u{1F527}',
+      icon: '𝐙',
       text: parts.join(' '),
-      color: ctx.colors.glmQuota,
+      color: '\x1b[38;5;255m',
     };
   },
 };
