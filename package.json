@@ -1,6 +1,6 @@
 {
   "name": "ccstatus-glm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A modular statusline for Claude Code with GLM API quota monitoring",
   "type": "module",
   "bin": {
@@ -32,7 +32,9 @@
   },
   "packageManager": "pnpm@10.32.1",
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "dependencies": {
     "@clack/prompts": "^0.9.1",
