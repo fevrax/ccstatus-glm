@@ -1,0 +1,13 @@
+src/
+tests/
+tsconfig.json
+tsup.config.ts
+vitest.config.ts
+.prettierrc
+.gitignore
+.idea/
+*.bak
+*.backup
+*.tmp
+.DS_Store
+coverage/

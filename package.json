@@ -1,0 +1,50 @@
+{
+  "name": "ccstatus-glm",
+  "version": "1.0.0",
+  "description": "A modular statusline for Claude Code with GLM API quota monitoring",
+  "type": "module",
+  "bin": {
+    "ccstatus-glm": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "prettier --check src/",
+    "format": "prettier --write src/",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "claude-code",
+    "statusline",
+    "glm",
+    "zhipuai",
+    "cli"
+  ],
+  "author": "fevrax",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@10.32.1",
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.9.1",
+    "cac": "^6.7.14",
+    "picocolors": "^1.1.1",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "prettier": "^3.4.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

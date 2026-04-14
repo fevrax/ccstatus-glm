@@ -1,0 +1,9 @@
+*.bak
+*.backup
+*.tmp
+.DS_Store
+.idea/
+node_modules/
+dist/
+*.tgz
+coverage/
