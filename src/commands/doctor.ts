@@ -7,7 +7,7 @@ import { loadConfig, CONFIG_PATH } from '../config/loader.js';
 import { readSettings, isStatusLineConfigured, SETTINGS_PATH } from '../claude-settings/reader.js';
 import { t, initLocale } from '../i18n/index.js';
 
-const BIN_SCRIPT_PATH = join(homedir(), '.claude', 'bin', 'ccstatus-glm-statusline');
+const BIN_SCRIPT_PATH = join(homedir(), '.claude', 'bin', 'ccstatus-glm');
 
 /**
  * 诊断命令 - 检查配置完整性

@@ -16,14 +16,14 @@ import { SETTINGS_PATH, SETTINGS_DIR, readSettings, isStatusLineConfigured } fro
 import { backupSettings } from './backup.js';
 
 const BIN_DIR = join(homedir(), '.claude', 'bin');
-const SCRIPT_NAME = 'ccstatus-glm-statusline';
+const SCRIPT_NAME = 'ccstatus-glm';
 const BIN_SCRIPT_PATH = join(BIN_DIR, SCRIPT_NAME);
 
 /** settings.json 中使用的命令路径（~ 相对路径，跨机器通用） */
 const BIN_SCRIPT_COMMAND = `~/.claude/bin/${SCRIPT_NAME}`;
 
 /** statusLine 刷新间隔（秒） */
-const REFRESH_INTERVAL = 5;
+const REFRESH_INTERVAL = 2;
 
 /**
  * 获取当前运行的 bundle 文件绝对路径
@@ -38,7 +38,7 @@ function getBundlePath(): string {
 /**
  * 安装本地可执行脚本到 ~/.claude/bin/
  *
- * 将当前运行的 bundle 复制到 ~/.claude/bin/ccstatus-glm-statusline，
+ * 将当前运行的 bundle 复制到 ~/.claude/bin/ccstatus-glm，
  * 并设置可执行权限。每次 init 调用会覆盖旧版本。
  *
  * @returns 安装后的脚本绝对路径
@@ -63,7 +63,7 @@ export function installBinScript(): string {
 /**
  * 清理本地安装的脚本
  *
- * 删除 ~/.claude/bin/ccstatus-glm-statusline，
+ * 删除 ~/.claude/bin/ccstatus-glm，
  * 如果目录为空则一并删除目录。
  */
 export function cleanupBinScript(): void {
