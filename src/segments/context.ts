@@ -11,20 +11,10 @@ export const contextSegment: Segment = {
     const cw = ctx.input.context_window;
     if (!cw) return null;
 
-    // 优先使用 Claude 直接提供的总 token 数
-    const inputTokens = cw.total_input_tokens ?? 0;
-    const outputTokens = cw.total_output_tokens ?? 0;
-    const totalTokens = inputTokens + outputTokens;
-
     let pct = cw.used_percentage;
     const windowSize = cw.context_window_size ?? 0;
 
-    // 如果百分比无效，从 token 数反算
-    if ((!pct || pct <= 0) && totalTokens > 0 && windowSize > 0) {
-      pct = (totalTokens / windowSize) * 100;
-    }
-
-    // 仍然无效，使用缓存
+    // 百分比无效时，使用缓存
     if (!pct || pct <= 0) {
       const cached = readContextCache();
       if (!cached) return null;
@@ -35,11 +25,8 @@ export const contextSegment: Segment = {
 
     const bar = formatBar(pct, ctx.config.barWidth);
 
-    // 优先使用直接提供的 token 数，其次从百分比估算
-    const usedTokens = totalTokens > 0
-      ? totalTokens
-      : Math.round((pct / 100) * windowSize);
-
+    // 从百分比 × 窗口大小计算已用 token
+    const usedTokens = Math.round((pct / 100) * windowSize);
     const tokenStr = usedTokens > 0 ? ` · ${formatTokenCount(usedTokens)}` : '';
 
     let color: string;
