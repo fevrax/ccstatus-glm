@@ -24,7 +24,7 @@ const SegmentNameEnum = z.enum([
  */
 const GlmConfigSchema = z.object({
   apiKey: z.string().default(''),
-  cacheTtl: z.number().int().min(10).max(3600).default(120),
+  cacheTtl: z.number().int().min(10).max(3600).default(60),
 });
 
 /**
