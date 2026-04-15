@@ -1,6 +1,6 @@
 {
   "name": "ccstatus-glm",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A modular statusline for Claude Code with GLM API quota monitoring",
   "type": "module",
   "bin": {

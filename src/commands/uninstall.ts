@@ -1,7 +1,7 @@
 import * as clack from '@clack/prompts';
 import { existsSync, unlinkSync } from 'node:fs';
 import { CONFIG_PATH } from '../config/loader.js';
-import { removeStatusLine } from '../claude-settings/writer.js';
+import { removeStatusLine, cleanupBinScript } from '../claude-settings/writer.js';
 import { restoreSettings } from '../claude-settings/backup.js';
 import { t, initLocale } from '../i18n/index.js';
 import { loadConfig } from '../config/loader.js';
@@ -51,6 +51,9 @@ export async function uninstallCommand(): Promise<void> {
       // 忽略
     }
   }
+
+  // 5. 清理本地脚本
+  cleanupBinScript();
 
   s.stop(t('uninstall.done'));
 }

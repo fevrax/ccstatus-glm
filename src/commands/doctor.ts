@@ -1,9 +1,13 @@
 import * as clack from '@clack/prompts';
-import { existsSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import { execSync } from 'node:child_process';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
 import { loadConfig, CONFIG_PATH } from '../config/loader.js';
 import { readSettings, isStatusLineConfigured, SETTINGS_PATH } from '../claude-settings/reader.js';
 import { t, initLocale } from '../i18n/index.js';
+
+const BIN_SCRIPT_PATH = join(homedir(), '.claude', 'bin', 'ccstatus-glm-statusline');
 
 /**
  * 诊断命令 - 检查配置完整性
@@ -51,6 +55,23 @@ export async function doctorCommand(): Promise<void> {
     results.push({ label: t('doctor.git.ok'), ok: true });
   } catch {
     results.push({ label: t('doctor.git.missing'), ok: false });
+  }
+
+  // 检查本地 statusline 脚本
+  if (existsSync(BIN_SCRIPT_PATH)) {
+    try {
+      const stat = statSync(BIN_SCRIPT_PATH);
+      const isExecutable = (stat.mode & 0o111) !== 0;
+      if (isExecutable) {
+        results.push({ label: t('doctor.script.ok'), ok: true });
+      } else {
+        results.push({ label: t('doctor.script.missing'), ok: false });
+      }
+    } catch {
+      results.push({ label: t('doctor.script.missing'), ok: false });
+    }
+  } else {
+    results.push({ label: t('doctor.script.missing'), ok: false });
   }
 
   // 输出结果

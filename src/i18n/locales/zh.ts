@@ -52,6 +52,10 @@ const zh: Record<string, string> = {
   'config.reset.confirm': '确定重置所有设置为默认值？',
   'config.reset.done': '配置已重置为默认值。',
 
+  // Install
+  'install.copying': '正在安装本地脚本...',
+  'install.copied': '本地脚本安装完成。',
+
   // Settings
   'settings.configuring': '正在配置 Claude Code 状态栏...',
   'settings.configured': 'Claude Code 状态栏配置成功。',
@@ -72,6 +76,8 @@ const zh: Record<string, string> = {
   'doctor.settings.ok': 'Claude Code 状态栏：已配置',
   'doctor.settings.missing': 'Claude Code 状态栏：未配置',
   'doctor.settings.invalid': 'Claude Code 状态栏：配置错误',
+  'doctor.script.ok': '状态栏脚本：正常',
+  'doctor.script.missing': '状态栏脚本：缺失（请重新运行 init）',
   'doctor.git.ok': 'Git：可用',
   'doctor.git.missing': 'Git：未安装',
 

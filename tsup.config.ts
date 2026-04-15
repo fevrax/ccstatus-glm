@@ -12,4 +12,6 @@ export default defineConfig({
   banner: {
     js: '#!/usr/bin/env node',
   },
+  // 将所有依赖打包进 bundle，使复制后的脚本完全自包含
+  noExternal: [/\.*/],
 });

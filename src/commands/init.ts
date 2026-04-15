@@ -5,7 +5,7 @@ import {
   type Config,
 } from '../config/schema.js';
 import { loadConfig, saveConfig } from '../config/loader.js';
-import { writeStatusLine, detectCommand } from '../claude-settings/writer.js';
+import { writeStatusLine, detectCommand, installBinScript } from '../claude-settings/writer.js';
 import { t, setLocale, detectLocale, type LocaleName } from '../i18n/index.js';
 import { getAllSegments } from '../segments/registry.js';
 
@@ -193,9 +193,13 @@ export async function initCommand(): Promise<void> {
   saveConfig(config);
   s.stop(t('config.saved'));
 
+  // 安装本地可执行脚本
+  s.start(t('install.copying'));
+  const cmd = installBinScript();
+  s.stop(t('install.copied'));
+
   // 自动配置 Claude Code settings.json
   s.start(t('settings.configuring'));
-  const cmd = detectCommand();
   const result = writeStatusLine(cmd);
   if (result.success) {
     if (result.alreadyConfigured) {

@@ -52,6 +52,10 @@ const en: Record<string, string> = {
   'config.reset.confirm': 'Reset all settings to defaults?',
   'config.reset.done': 'Configuration reset to defaults.',
 
+  // Install
+  'install.copying': 'Installing local script...',
+  'install.copied': 'Local script installed.',
+
   // Settings
   'settings.configuring': 'Configuring Claude Code statusline...',
   'settings.configured': 'Claude Code statusline configured successfully.',
@@ -72,6 +76,8 @@ const en: Record<string, string> = {
   'doctor.settings.ok': 'Claude Code statusline: OK',
   'doctor.settings.missing': 'Claude Code statusline: NOT CONFIGURED',
   'doctor.settings.invalid': 'Claude Code statusline: MISCONFIGURED',
+  'doctor.script.ok': 'Statusline script: OK',
+  'doctor.script.missing': 'Statusline script: MISSING (re-run init)',
   'doctor.git.ok': 'Git: available',
   'doctor.git.missing': 'Git: NOT FOUND',
 
