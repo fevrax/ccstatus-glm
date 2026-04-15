@@ -13,5 +13,5 @@ export const nordScheme: ColorPalette = {
   cost: '\x1b[38;2;235;203;139m',         // 极光黄
   session: '\x1b[38;2;180;142;173m',      // 极光紫
   style: '\x1b[38;2;94;120;146m',         // 极光青
-  glmQuota: '\x1b[38;2;136;192;208m',     // 极光蓝
+  glmQuota: '\x1b[38;2;148;226;213m',     // 极光 teal — 区别于 model 极光蓝
 };

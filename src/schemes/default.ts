@@ -13,5 +13,5 @@ export const defaultScheme: ColorPalette = {
   cost: '\x1b[38;5;216m',
   session: '\x1b[38;5;182m',
   style: '\x1b[38;5;222m',
-  glmQuota: '\x1b[38;5;117m',
+  glmQuota: '\x1b[38;5;80m',      // teal — 区别于 directory(117)
 };

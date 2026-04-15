@@ -122,7 +122,7 @@ function parseQuotaResponse(json: Record<string, unknown>): GlmQuotaInfo | null 
       tokenPercent,
       timePercent,
       timeRemaining,
-      resetTime: timeResetTime || tokenResetTime,
+      resetTime: tokenResetTime || timeResetTime,
       details,
     };
   } catch {

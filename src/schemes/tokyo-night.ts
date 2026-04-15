@@ -13,5 +13,5 @@ export const tokyoNightScheme: ColorPalette = {
   cost: '\x1b[38;2;255;158;100m',         // 橙色
   session: '\x1b[38;2;187;154;247m',      // 紫色
   style: '\x1b[38;2;255;214;102m',        // 黄色
-  glmQuota: '\x1b[38;2;122;162;247m',     // 蓝色
+  glmQuota: '\x1b[38;2;125;207;220m',     // 柔和 teal — 区别于 directory 蓝色
 };
