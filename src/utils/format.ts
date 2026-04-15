@@ -39,3 +39,18 @@ export function formatBar(percentage: number, width: number): string {
   const empty = width - filled;
   return '\u2588'.repeat(filled) + '\u2591'.repeat(empty);
 }
+
+/**
+ * 格式化 token 数量为可读字符串（如 129.1k）
+ */
+export function formatTokenCount(count: number): string {
+  if (count < 1000) return String(Math.round(count));
+
+  const k = count / 1000;
+  if (k < 1000) {
+    return `${k >= 100 ? Math.round(k) : k.toFixed(1)}k`;
+  }
+
+  const m = k / 1000;
+  return `${m.toFixed(1)}M`;
+}

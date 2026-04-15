@@ -44,7 +44,7 @@ export const ConfigSchema = z.object({
   ]),
   colorScheme: ColorSchemeEnum.default('default'),
   separator: z.string().default(' | '),
-  barWidth: z.number().int().min(4).max(40).default(10),
+  barWidth: z.number().int().min(4).max(40).default(6),
   dirShorten: z.number().int().min(0).max(10).default(2),
   gitShowSha: z.boolean().default(false),
   glm: GlmConfigSchema.default({}),
