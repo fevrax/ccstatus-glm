@@ -35,7 +35,8 @@ export function formatCost(usd: number): string {
  * 生成上下文使用率进度条
  */
 export function formatBar(percentage: number, width: number): string {
-  const filled = Math.round((percentage / 100) * width);
+  const clamped = Math.max(0, Math.min(100, percentage));
+  const filled = Math.round((clamped / 100) * width);
   const empty = width - filled;
   return '\u2588'.repeat(filled) + '\u2591'.repeat(empty);
 }
