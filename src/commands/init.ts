@@ -257,8 +257,6 @@ export async function initCommand(): Promise<void> {
   // 完成
   clack.outro(
     t('init.complete') + '\n\n'
-    + '  ' + t('init.complete.restart') + '\n'
-    + '  ' + t('init.complete.trust') + '\n'
     + '  ' + t('init.complete.doctor'),
   );
 }

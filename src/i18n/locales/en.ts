@@ -107,9 +107,7 @@ const en: Record<string, string> = {
   'verify.hooks_disabled': 'disableAllHooks is enabled — status line will not run',
 
   // Init completion hints
-  'init.complete.trust': 'Accept the workspace trust dialog when opening a project in Claude Code.',
   'init.complete.doctor': 'Run "npx ccstatus-glm doctor" to verify installation.',
-  'init.complete.restart': 'Restart Claude Code to see the new statusline.',
 };
 
 export default en;

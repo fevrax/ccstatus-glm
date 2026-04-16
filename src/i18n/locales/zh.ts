@@ -107,9 +107,7 @@ const zh: Record<string, string> = {
   'verify.hooks_disabled': 'disableAllHooks 已启用 — status line 将被禁用',
 
   // Init completion hints
-  'init.complete.trust': '在 Claude Code 中打开项目时，请确保接受工作区信任对话框。',
   'init.complete.doctor': '运行 "npx ccstatus-glm doctor" 验证安装。',
-  'init.complete.restart': '重启 Claude Code 即可看到新的状态栏。',
 };
 
 export default zh;
