@@ -17,4 +17,4 @@ export interface ColorPalette {
 /**
  * 配色方案标识
  */
-export type ColorSchemeName = 'default' | 'tokyo_night' | 'nord' | 'catppuccin';
+export type ColorSchemeName = 'default' | 'tokyo_night' | 'nord' | 'catppuccin' | 'dracula';

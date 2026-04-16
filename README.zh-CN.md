@@ -10,7 +10,7 @@
 
 - **模块化段** — 模型、目录、Git 分支、上下文使用率、费用、会话时长、输出风格、GLM 配额
 - **GLM Coding Plan 配额** — 实时显示 Token 和 MCP 调用额度
-- **4 种配色方案** — default（ANSI 256 色）、tokyo_night、nord、catppuccin（24-bit RGB）
+- **5 种配色方案** — default（ANSI 256 色）、tokyo_night、nord、catppuccin、dracula（24-bit RGB）
 - **交互式向导** — 使用 `@clack/prompts` 提供美观的配置体验
 - **自动配置** — 自动写入 Claude Code 的 `settings.json` statusLine 配置
 - **中英双语** — 支持中文和英文（自动检测）
@@ -48,12 +48,12 @@ npx ccstatus-glm
   "segments": ["model", "directory", "git", "context", "cost", "session", "glm_quota"],
   "colorScheme": "default",
   "separator": " | ",
-  "barWidth": 10,
+  "barWidth": 6,
   "dirShorten": 2,
   "gitShowSha": false,
   "glm": {
     "apiKey": "",
-    "cacheTtl": 120
+    "cacheTtl": 60
   }
 }
 ```
@@ -64,14 +64,15 @@ npx ccstatus-glm
 |---|--------|------|------|
 | 模型 | `model` | 当前模型名称 | `🤖 glm-5.1` |
 | 目录 | `directory` | 工作目录（缩短显示） | `📂 Code/Web` |
-| Git | `git` | 当前分支 | `🌿 main` |
-| 上下文 | `context` | 上下文窗口使用率进度条 | `📊 ████░░░░░░ 35%` |
+| Git | `git` | 当前分支 + 脏状态指示 | `🌿 main ±` |
+| 上下文 | `context` | 上下文窗口使用率进度条 + Token 明细 | `📊 ████░░░░░░ 35% · 70k/200k ↑65k ↓5k` |
 | 费用 | `cost` | 会话费用（$0 时自动隐藏） | `💰 $0.25` |
 | 时长 | `session` | 会话持续时间 | `⏱️ 5m30s` |
 | 输出风格 | `output_style` | 当前输出风格名称 | `🎨 engineer-professional` |
 | GLM 配额 | `glm_quota` | Token 和 MCP 使用量 | `🔧 LITE Token:5% MCP:31% 10:52` |
 
-> 上下文进度条颜色在 50% 时变为警告色，80% 时变为危险色。
+> 上下文进度条颜色在 50% 时变为警告色，80% 时变为危险色。Token 明细显示输入（↑）和输出（↓）数量。
+> Git 脏状态指示器 `±` 在工作目录有未提交更改时出现。
 
 ### 配色方案
 
@@ -81,6 +82,7 @@ npx ccstatus-glm
 | `tokyo_night` | 紫色调暗色主题（24-bit RGB） |
 | `nord` | 北极蓝灰色调（24-bit RGB） |
 | `catppuccin` | 柔和暖色调 — Catppuccin Mocha（24-bit RGB） |
+| `dracula` | 经典暗色主题 — Dracula（24-bit RGB） |
 
 ### GLM API 配置
 
@@ -92,7 +94,7 @@ GLM 配额段从智谱 AI API 获取使用数据。启用方法：
    npx ccstatus-glm config set glm.apiKey "你的API密钥"
    ```
 
-配额数据会本地缓存（默认 120 秒），避免不必要的 API 调用。
+配额数据会本地缓存（默认 60 秒），避免不必要的 API 调用。
 
 ## 工作原理
 

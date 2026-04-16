@@ -5,7 +5,8 @@ import {
   type Config,
 } from '../config/schema.js';
 import { loadConfig, saveConfig } from '../config/loader.js';
-import { writeStatusLine, detectCommand, installBinScript } from '../claude-settings/writer.js';
+import { writeStatusLine, installBinScript, isBinScriptInstalled } from '../claude-settings/writer.js';
+import { verifyInstallation } from '../claude-settings/verify.js';
 import { t, setLocale, detectLocale, type LocaleName } from '../i18n/index.js';
 import { getAllSegments } from '../segments/registry.js';
 
@@ -92,8 +93,8 @@ export async function initCommand(): Promise<void> {
   // Step 5: 缓存 TTL
   const cacheTtl = await clack.text({
     message: t('init.cacheTtl'),
-    placeholder: '120',
-    initialValue: String(existingConfig.glm?.cacheTtl ?? 120),
+    placeholder: '60',
+    initialValue: String(existingConfig.glm?.cacheTtl ?? 60),
     validate: (val) => {
       const num = Number(val);
       if (isNaN(num) || num < 10 || num > 3600) {
@@ -119,7 +120,7 @@ export async function initCommand(): Promise<void> {
   }
 
   let separator = existingConfig.separator ?? ' | ';
-  let barWidth = existingConfig.barWidth ?? 10;
+  let barWidth = existingConfig.barWidth ?? 6;
   let dirShorten = existingConfig.dirShorten ?? 2;
   let gitShowSha = existingConfig.gitShowSha ?? false;
 
@@ -194,22 +195,49 @@ export async function initCommand(): Promise<void> {
   s.stop(t('config.saved'));
 
   // 安装本地可执行脚本
-  s.start(t('install.copying'));
-  const cmd = installBinScript();
-  s.stop(t('install.copied'));
+  const alreadyInstalled = isBinScriptInstalled();
+  s.start(alreadyInstalled ? t('install.updating') : t('install.copying'));
+  const installResult = installBinScript();
+  if (installResult.error) {
+    s.stop(t('error.install.copy', installResult.error));
+    clack.outro(t('error.install.copy', installResult.error));
+    return;
+  }
+  s.stop(alreadyInstalled ? t('install.updated') : t('install.copied'));
 
   // 自动配置 Claude Code settings.json
   s.start(t('settings.configuring'));
-  const result = writeStatusLine(cmd);
+  const result = writeStatusLine(installResult.command);
   if (result.success) {
     if (result.alreadyConfigured) {
       s.stop(t('settings.already_configured'));
     } else {
-      s.stop(t('settings.configured') + '\n  ' + t('settings.configured.cmd', cmd));
+      s.stop(t('settings.configured') + '\n  ' + t('settings.configured.cmd', installResult.command));
     }
   } else {
-    s.stop(t('error.settings.write'));
+    s.stop(t('error.settings.write') + (result.error ? `: ${result.error}` : ''));
+    clack.outro(t('error.settings.write'));
+    return;
   }
 
-  clack.outro(t('init.complete') + '\n\n  ' + t('init.complete.next'));
+  // 安装后验证
+  s.start('Verifying installation...');
+  const verification = verifyInstallation();
+  s.stop('Verification complete.');
+
+  for (const check of verification.checks) {
+    if (check.passed) {
+      clack.log.success(check.message);
+    } else {
+      clack.log.warn(check.message);
+    }
+  }
+
+  // 完成
+  clack.outro(
+    t('init.complete') + '\n\n'
+    + '  ' + t('init.complete.restart') + '\n'
+    + '  ' + t('init.complete.trust') + '\n'
+    + '  ' + t('init.complete.doctor'),
+  );
 }

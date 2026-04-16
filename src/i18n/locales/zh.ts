@@ -45,6 +45,7 @@ const zh: Record<string, string> = {
   'scheme.tokyo_night': 'Tokyo Night',
   'scheme.nord': 'Nord',
   'scheme.catppuccin': 'Catppuccin Mocha',
+  'scheme.dracula': 'Dracula',
 
   // Config
   'config.show': '当前配置',
@@ -55,6 +56,8 @@ const zh: Record<string, string> = {
   // Install
   'install.copying': '正在安装本地脚本...',
   'install.copied': '本地脚本安装完成。',
+  'install.updating': '正在更新本地脚本...',
+  'install.updated': '本地脚本已更新。',
 
   // Settings
   'settings.configuring': '正在配置 Claude Code 状态栏...',
@@ -87,7 +90,24 @@ const zh: Record<string, string> = {
   'error.config.write': '写入配置文件失败。',
   'error.settings.read': '读取 Claude Code 设置失败。',
   'error.settings.write': '写入 Claude Code 设置失败。',
+  'error.install.copy': '安装本地脚本失败：{0}',
   'error.cancelled': '操作已取消。',
+
+  // Verification
+  'verify.script.ok': '脚本文件：正常',
+  'verify.script.missing': '脚本未找到：{0}',
+  'verify.script.not_executable': '脚本不可执行',
+  'verify.script.run_ok': '脚本执行：正常',
+  'verify.script.run_fail': '脚本执行失败：{0}',
+  'verify.settings.ok': 'StatusLine 配置：正常',
+  'verify.settings.not_found': 'settings.json 未创建',
+  'verify.settings.wrong_command': 'statusLine 命令不匹配',
+  'verify.hooks_disabled': 'disableAllHooks 已启用 — status line 将被禁用',
+
+  // Init completion hints
+  'init.complete.trust': '在 Claude Code 中打开项目时，请确保接受工作区信任对话框。',
+  'init.complete.doctor': '运行 "npx ccstatus-glm doctor" 验证安装。',
+  'init.complete.restart': '重启 Claude Code 即可看到新的状态栏。',
 };
 
 export default zh;

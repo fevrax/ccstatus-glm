@@ -1,4 +1,5 @@
 import type { Segment, SegmentContext, SegmentResult } from './types.js';
+import { sanitizeText } from '../utils/sanitize.js';
 import { modelSegment } from './model.js';
 import { directorySegment } from './directory.js';
 import { gitSegment } from './git.js';
@@ -49,7 +50,6 @@ export function getSegmentByName(name: string): Segment | undefined {
 export async function renderSegments(
   ctx: SegmentContext,
 ): Promise<string> {
-  const enabledNames = new Set(ctx.config.segments);
   const parts: string[] = [];
 
   for (const name of ctx.config.segments) {
@@ -64,7 +64,7 @@ export async function renderSegments(
     if (resolved === null) continue;
 
     parts.push(
-      `${resolved.color}${resolved.icon}\x1b[0m ${resolved.color}\x1b[1m${resolved.text}\x1b[0m`,
+      `${resolved.color}${resolved.icon}\x1b[0m ${resolved.color}\x1b[1m${sanitizeText(resolved.text)}\x1b[0m`,
     );
   }
 

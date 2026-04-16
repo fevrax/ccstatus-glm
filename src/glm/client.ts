@@ -1,4 +1,5 @@
 import { readCache, writeCache } from './cache.js';
+import { sanitizePercent, sanitizeNumber } from '../utils/sanitize.js';
 
 const GLM_API_URL = 'https://bigmodel.cn/api/monitor/usage/quota/limit';
 
@@ -75,7 +76,7 @@ function parseQuotaResponse(json: Record<string, unknown>): GlmQuotaInfo | null 
     const limits = data.limits as Array<Record<string, unknown>> | undefined;
     if (!limits || !Array.isArray(limits)) return null;
 
-    const level = String(data.level ?? '');
+    const level = String(data.level ?? '').replace(/[\x00-\x1F\x7F-\x9F\u200B-\u200D\uFEFF]/g, '');
 
     let tokenPercent = 0;
     let timePercent = 0;
@@ -88,7 +89,7 @@ function parseQuotaResponse(json: Record<string, unknown>): GlmQuotaInfo | null 
       const type = String(limit.type ?? '');
 
       if (type === 'TOKENS_LIMIT') {
-        tokenPercent = Number(limit.percentage ?? 0);
+        tokenPercent = sanitizePercent(limit.percentage);
         const resetTs = Number(limit.nextResetTime ?? 0);
         if (resetTs > 0) {
           tokenResetTime = formatResetTime(resetTs);
@@ -96,8 +97,8 @@ function parseQuotaResponse(json: Record<string, unknown>): GlmQuotaInfo | null 
       }
 
       if (type === 'TIME_LIMIT') {
-        timePercent = Number(limit.percentage ?? 0);
-        timeRemaining = Number(limit.remaining ?? 0);
+        timePercent = sanitizePercent(limit.percentage);
+        timeRemaining = sanitizeNumber(limit.remaining);
         const resetTs = Number(limit.nextResetTime ?? 0);
         if (resetTs > 0) {
           timeResetTime = formatResetTime(resetTs);
@@ -110,7 +111,7 @@ function parseQuotaResponse(json: Record<string, unknown>): GlmQuotaInfo | null 
           for (const detail of usageDetails) {
             details.push({
               model: String(detail.modelCode ?? ''),
-              usage: Number(detail.usage ?? 0),
+              usage: sanitizeNumber(detail.usage),
             });
           }
         }

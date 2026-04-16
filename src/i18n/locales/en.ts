@@ -45,6 +45,7 @@ const en: Record<string, string> = {
   'scheme.tokyo_night': 'Tokyo Night',
   'scheme.nord': 'Nord',
   'scheme.catppuccin': 'Catppuccin Mocha',
+  'scheme.dracula': 'Dracula',
 
   // Config
   'config.show': 'Current configuration',
@@ -55,6 +56,8 @@ const en: Record<string, string> = {
   // Install
   'install.copying': 'Installing local script...',
   'install.copied': 'Local script installed.',
+  'install.updating': 'Updating local script...',
+  'install.updated': 'Local script updated.',
 
   // Settings
   'settings.configuring': 'Configuring Claude Code statusline...',
@@ -87,7 +90,24 @@ const en: Record<string, string> = {
   'error.config.write': 'Failed to write config file.',
   'error.settings.read': 'Failed to read Claude Code settings.',
   'error.settings.write': 'Failed to write Claude Code settings.',
+  'error.install.copy': 'Failed to install local script: {0}',
   'error.cancelled': 'Operation cancelled.',
+
+  // Verification
+  'verify.script.ok': 'Script file: OK',
+  'verify.script.missing': 'Script not found at {0}',
+  'verify.script.not_executable': 'Script is not executable',
+  'verify.script.run_ok': 'Script execution: OK',
+  'verify.script.run_fail': 'Script execution failed: {0}',
+  'verify.settings.ok': 'StatusLine config: OK',
+  'verify.settings.not_found': 'settings.json not created',
+  'verify.settings.wrong_command': 'statusLine command mismatch',
+  'verify.hooks_disabled': 'disableAllHooks is enabled — status line will not run',
+
+  // Init completion hints
+  'init.complete.trust': 'Accept the workspace trust dialog when opening a project in Claude Code.',
+  'init.complete.doctor': 'Run "npx ccstatus-glm doctor" to verify installation.',
+  'init.complete.restart': 'Restart Claude Code to see the new statusline.',
 };
 
 export default en;

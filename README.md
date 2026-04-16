@@ -10,7 +10,7 @@ Built with TypeScript. Zero global install required — works with `npx`.
 
 - **Modular segments** — model, directory, git branch, context usage, cost, session duration, output style, GLM quota
 - **GLM Coding Plan quota** — real-time token & MCP usage from ZhipuAI API
-- **4 color schemes** — default (ANSI 256-color), tokyo_night, nord, catppuccin (24-bit RGB)
+- **5 color schemes** — default (ANSI 256-color), tokyo_night, nord, catppuccin, dracula (24-bit RGB)
 - **Interactive wizard** — beautiful guided setup with `@clack/prompts`
 - **Auto-configure** — automatically writes statusLine to Claude Code's `settings.json`
 - **Bilingual** — supports English and Chinese (auto-detected)
@@ -48,12 +48,12 @@ Config file: `~/.claude/ccstatus-glm.json`
   "segments": ["model", "directory", "git", "context", "cost", "session", "glm_quota"],
   "colorScheme": "default",
   "separator": " | ",
-  "barWidth": 10,
+  "barWidth": 6,
   "dirShorten": 2,
   "gitShowSha": false,
   "glm": {
     "apiKey": "",
-    "cacheTtl": 120
+    "cacheTtl": 60
   }
 }
 ```
@@ -64,14 +64,15 @@ Config file: `~/.claude/ccstatus-glm.json`
 |---------|-----|-------------|---------|
 | Model | `model` | Current model name | `🤖 glm-5.1` |
 | Directory | `directory` | Working directory (shortened) | `📂 Code/Web` |
-| Git | `git` | Current branch | `🌿 main` |
-| Context | `context` | Context window usage bar | `📊 ████░░░░░░ 35%` |
+| Git | `git` | Current branch + dirty indicator | `🌿 main ±` |
+| Context | `context` | Context window usage bar + token breakdown | `📊 ████░░░░░░ 35% · 70k/200k ↑65k ↓5k` |
 | Cost | `cost` | Session cost (hidden if $0) | `💰 $0.25` |
 | Session | `session` | Session duration | `⏱️ 5m30s` |
 | Output style | `output_style` | Current output style name | `🎨 engineer-professional` |
 | GLM quota | `glm_quota` | Token & MCP usage with level | `🔧 LITE Token:5% MCP:31% 10:52` |
 
-> Context bar color changes at 50% (warning) and 80% (critical).
+> Context bar color changes at 50% (warning) and 80% (critical). Token breakdown shows input (↑) and output (↓) tokens.
+> Git dirty indicator `±` appears when there are uncommitted changes in the working directory.
 
 ### Color Schemes
 
@@ -81,6 +82,7 @@ Config file: `~/.claude/ccstatus-glm.json`
 | `tokyo_night` | Purple-toned dark theme (24-bit RGB) |
 | `nord` | Arctic blue-gray tones (24-bit RGB) |
 | `catppuccin` | Soft warm tones — Catppuccin Mocha (24-bit RGB) |
+| `dracula` | Classic dark theme — Dracula (24-bit RGB) |
 
 ### GLM API Setup
 
@@ -92,7 +94,7 @@ The GLM quota segment fetches usage data from the ZhipuAI API. To enable it:
    npx ccstatus-glm config set glm.apiKey "your-api-key-here"
    ```
 
-The quota data is cached locally (default 120 seconds) to avoid unnecessary API calls.
+The quota data is cached locally (default 60 seconds) to avoid unnecessary API calls.
 
 ## How It Works
 

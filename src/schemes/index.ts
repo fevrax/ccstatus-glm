@@ -3,12 +3,14 @@ import { defaultScheme } from './default.js';
 import { tokyoNightScheme } from './tokyo-night.js';
 import { nordScheme } from './nord.js';
 import { catppuccinScheme } from './catppuccin.js';
+import { draculaScheme } from './dracula.js';
 
 const schemes: Record<ColorSchemeName, ColorPalette> = {
   default: defaultScheme,
   tokyo_night: tokyoNightScheme,
   nord: nordScheme,
   catppuccin: catppuccinScheme,
+  dracula: draculaScheme,
 };
 
 /**

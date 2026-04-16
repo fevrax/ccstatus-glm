@@ -3,7 +3,7 @@ import { z } from 'zod';
 /**
  * 配色方案标识枚举
  */
-const ColorSchemeEnum = z.enum(['default', 'tokyo_night', 'nord', 'catppuccin']);
+const ColorSchemeEnum = z.enum(['default', 'tokyo_night', 'nord', 'catppuccin', 'dracula']);
 
 /**
  * 段名称枚举
@@ -86,4 +86,5 @@ export const COLOR_SCHEME_OPTIONS: Array<{
   { value: 'tokyo_night', labelKey: 'scheme.tokyo_night' },
   { value: 'nord', labelKey: 'scheme.nord' },
   { value: 'catppuccin', labelKey: 'scheme.catppuccin' },
+  { value: 'dracula', labelKey: 'scheme.dracula' },
 ];

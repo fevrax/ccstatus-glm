@@ -9,7 +9,7 @@ import {
   rmSync,
   readdirSync,
 } from 'node:fs';
-import { join, resolve } from 'node:path';
+import { join } from 'node:path';
 import { homedir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { SETTINGS_PATH, SETTINGS_DIR, readSettings, isStatusLineConfigured } from './reader.js';
@@ -20,10 +20,10 @@ const SCRIPT_NAME = 'ccstatus-glm';
 const BIN_SCRIPT_PATH = join(BIN_DIR, SCRIPT_NAME);
 
 /** settings.json 中使用的命令路径（~ 相对路径，跨机器通用） */
-const BIN_SCRIPT_COMMAND = `~/.claude/bin/${SCRIPT_NAME}`;
+export const BIN_SCRIPT_COMMAND = `~/.claude/bin/${SCRIPT_NAME}`;
 
 /** statusLine 刷新间隔（秒） */
-const REFRESH_INTERVAL = 2;
+const REFRESH_INTERVAL = 3;
 
 /**
  * 获取当前运行的 bundle 文件绝对路径
@@ -35,29 +35,56 @@ function getBundlePath(): string {
   return fileURLToPath(import.meta.url);
 }
 
+/** installBinScript 返回类型 */
+export interface InstallResult {
+  command: string;
+  error?: string;
+}
+
+/** writeStatusLine 返回类型 */
+export interface WriteResult {
+  success: boolean;
+  alreadyConfigured: boolean;
+  error?: string;
+}
+
 /**
  * 安装本地可执行脚本到 ~/.claude/bin/
  *
  * 将当前运行的 bundle 复制到 ~/.claude/bin/ccstatus-glm，
  * 并设置可执行权限。每次 init 调用会覆盖旧版本。
  *
- * @returns 安装后的脚本绝对路径
+ * @returns 安装结果，包含命令路径和可能的错误信息
  */
-export function installBinScript(): string {
-  const sourcePath = getBundlePath();
+export function installBinScript(): InstallResult {
+  try {
+    const sourcePath = getBundlePath();
 
-  // 确保 ~/.claude/bin/ 目录存在
-  if (!existsSync(BIN_DIR)) {
-    mkdirSync(BIN_DIR, { recursive: true });
+    // 确保 ~/.claude/bin/ 目录存在
+    if (!existsSync(BIN_DIR)) {
+      mkdirSync(BIN_DIR, { recursive: true });
+    }
+
+    // 复制 bundle 到目标路径
+    copyFileSync(sourcePath, BIN_SCRIPT_PATH);
+
+    // 设置可执行权限
+    chmodSync(BIN_SCRIPT_PATH, 0o755);
+
+    return { command: BIN_SCRIPT_COMMAND };
+  } catch (err) {
+    return {
+      command: BIN_SCRIPT_COMMAND,
+      error: (err as Error).message,
+    };
   }
+}
 
-  // 复制 bundle 到目标路径
-  copyFileSync(sourcePath, BIN_SCRIPT_PATH);
-
-  // 设置可执行权限
-  chmodSync(BIN_SCRIPT_PATH, 0o755);
-
-  return BIN_SCRIPT_COMMAND;
+/**
+ * 检测是否已安装本地脚本
+ */
+export function isBinScriptInstalled(): boolean {
+  return existsSync(BIN_SCRIPT_PATH);
 }
 
 /**
@@ -89,25 +116,13 @@ export function cleanupBinScript(): void {
 }
 
 /**
- * 检测 statusLine 命令
- *
- * 统一通过 installBinScript() 安装本地脚本，返回绝对路径。
- * 不再使用 npx，避免每次 ~2 秒的包解析开销。
- */
-export function detectCommand(): string {
-  return installBinScript();
-}
-
-/**
  * 写入 statusLine 配置到 Claude Code settings.json
  * - 只修改 statusLine 字段，不影响其他配置
  * - 使用原子写入（先写临时文件再重命名）防止损坏
  * - 幂等：已存在相同配置则跳过
  */
-export function writeStatusLine(
-  command?: string,
-): { success: boolean; alreadyConfigured: boolean } {
-  const cmd = command || detectCommand();
+export function writeStatusLine(command?: string): WriteResult {
+  const cmd = command || BIN_SCRIPT_COMMAND;
   const settings = readSettings();
 
   // 幂等检查：已经配置了相同的命令则跳过
@@ -143,7 +158,7 @@ export function writeStatusLine(
     renameSync(tmpPath, SETTINGS_PATH);
 
     return { success: true, alreadyConfigured: false };
-  } catch {
+  } catch (err) {
     // 清理临时文件
     try {
       if (existsSync(tmpPath)) {
@@ -152,7 +167,11 @@ export function writeStatusLine(
     } catch {
       // 忽略清理失败
     }
-    return { success: false, alreadyConfigured: false };
+    return {
+      success: false,
+      alreadyConfigured: false,
+      error: (err as Error).message,
+    };
   }
 }
 

@@ -5,9 +5,16 @@ import { configCommand } from './commands/config.js';
 import { uninstallCommand } from './commands/uninstall.js';
 import { doctorCommand } from './commands/doctor.js';
 
+// 构建时由 tsup define 注入，无需运行时读取 package.json
+declare const __CCSTATUS_VERSION__: string;
+
+function getVersion(): string {
+  return __CCSTATUS_VERSION__ || '0.0.0';
+}
+
 const cli = cac('ccstatus-glm');
 
-cli.version('1.0.0').option('--locale <locale>', 'Override language (en | zh)');
+cli.version(getVersion()).option('--locale <locale>', 'Override language (en | zh)');
 
 // 默认命令：渲染状态栏（Claude Code 调用入口）
 cli.command('', 'Render statusline from stdin').action(runCommand);
