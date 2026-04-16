@@ -47,6 +47,8 @@ export const ConfigSchema = z.object({
   barWidth: z.number().int().min(4).max(40).default(6),
   dirShorten: z.number().int().min(0).max(10).default(2),
   gitShowSha: z.boolean().default(false),
+  gitDetailed: z.boolean().default(false),
+  gitCacheTtl: z.number().int().min(1).max(60).default(5),
   glm: GlmConfigSchema.default({}),
 });
 

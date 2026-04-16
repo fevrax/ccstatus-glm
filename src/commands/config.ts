@@ -83,6 +83,8 @@ function formatConfig(config: Config): string {
   lines.push(`barWidth:     ${config.barWidth}`);
   lines.push(`dirShorten:   ${config.dirShorten}`);
   lines.push(`gitShowSha:   ${config.gitShowSha}`);
+  lines.push(`gitDetailed:  ${config.gitDetailed}`);
+  lines.push(`gitCacheTtl:  ${config.gitCacheTtl}`);
   lines.push(`glm.apiKey:   ${config.glm.apiKey ? '••••••' : '(not set)'}`);
   lines.push(`glm.cacheTtl: ${config.glm.cacheTtl}`);
   return lines.join('\n');

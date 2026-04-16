@@ -26,6 +26,8 @@ const en: Record<string, string> = {
   'init.barWidth': 'Context bar width (characters)',
   'init.dirShorten': 'Directory depth to show',
   'init.gitShowSha': 'Show git short SHA after branch name?',
+  'init.gitDetailed': 'Show detailed git status (staged/modified/untracked counts)?',
+  'init.gitCacheTtl': 'Git cache refresh interval (seconds, 1-60)',
   'init.confirm': 'Ready to apply configuration?',
   'init.complete': 'Configuration complete!',
   'init.complete.next': 'Restart Claude Code to see the new statusline.',

@@ -123,6 +123,8 @@ export async function initCommand(): Promise<void> {
   let barWidth = existingConfig.barWidth ?? 6;
   let dirShorten = existingConfig.dirShorten ?? 2;
   let gitShowSha = existingConfig.gitShowSha ?? false;
+  let gitDetailed = existingConfig.gitDetailed ?? false;
+  let gitCacheTtl = existingConfig.gitCacheTtl ?? 5;
 
   if (showAdvanced) {
     const advSeparator = await clack.text({
@@ -159,6 +161,23 @@ export async function initCommand(): Promise<void> {
       initialValue: gitShowSha,
     });
     if (!clack.isCancel(advGitShowSha)) gitShowSha = advGitShowSha;
+
+    const advGitDetailed = await clack.confirm({
+      message: t('init.gitDetailed'),
+      initialValue: gitDetailed,
+    });
+    if (!clack.isCancel(advGitDetailed)) gitDetailed = advGitDetailed;
+
+    const advGitCacheTtl = await clack.text({
+      message: t('init.gitCacheTtl'),
+      placeholder: '5',
+      initialValue: String(gitCacheTtl),
+      validate: (val) => {
+        const num = Number(val);
+        if (isNaN(num) || num < 1 || num > 60) return '1-60';
+      },
+    });
+    if (!clack.isCancel(advGitCacheTtl)) gitCacheTtl = Number(advGitCacheTtl);
   }
 
   // 确认
@@ -182,6 +201,8 @@ export async function initCommand(): Promise<void> {
     barWidth,
     dirShorten,
     gitShowSha,
+    gitDetailed,
+    gitCacheTtl,
     glm: {
       apiKey: glmApiKey || existingConfig.glm?.apiKey || '',
       cacheTtl: Number(cacheTtl),

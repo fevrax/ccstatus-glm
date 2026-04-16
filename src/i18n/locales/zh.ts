@@ -26,6 +26,8 @@ const zh: Record<string, string> = {
   'init.barWidth': '上下文进度条宽度（字符数）',
   'init.dirShorten': '目录显示深度',
   'init.gitShowSha': '是否在分支名后显示 Git 短 SHA？',
+  'init.gitDetailed': '显示详细 Git 状态（暂存/修改/未跟踪文件数）？',
+  'init.gitCacheTtl': 'Git 缓存刷新间隔（秒，1-60）',
   'init.confirm': '确认应用配置？',
   'init.complete': '配置完成！',
   'init.complete.next': '重启 Claude Code 即可看到新的状态栏。',
