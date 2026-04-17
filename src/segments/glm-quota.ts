@@ -20,17 +20,18 @@ export const glmQuotaSegment: Segment = {
       parts.push(info.level.toUpperCase());
     }
 
-    // Token 使用百分比
-    parts.push(`Token:${info.tokenPercent}%`);
+    // Token 使用百分比 + 重置时间
+    const tokenPart = info.tokenResetTime
+      ? `Token:${info.tokenPercent}% ${info.tokenResetTime}`
+      : `Token:${info.tokenPercent}%`;
+    parts.push(tokenPart);
 
-    // MCP 调用额度使用百分比
+    // MCP 调用额度使用百分比 + 重置时间
     if (info.timePercent > 0) {
-      parts.push(`MCP:${info.timePercent}%`);
-    }
-
-    // 重置时间
-    if (info.resetTime) {
-      parts.push(info.resetTime);
+      const mcpPart = info.timeResetTime
+        ? `MCP:${info.timePercent}% ${info.timeResetTime}`
+        : `MCP:${info.timePercent}%`;
+      parts.push(mcpPart);
     }
 
     return {

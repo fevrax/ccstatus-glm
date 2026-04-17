@@ -107,7 +107,6 @@ const en: Record<string, string> = {
   'verify.hooks_disabled': 'disableAllHooks is enabled — status line will not run',
 
   // Init completion hints
-  'init.complete.doctor': 'Run "npx ccstatus-glm doctor" to verify installation.',
 };
 
 export default en;

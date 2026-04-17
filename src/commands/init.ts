@@ -255,8 +255,5 @@ export async function initCommand(): Promise<void> {
   }
 
   // 完成
-  clack.outro(
-    t('init.complete') + '\n\n'
-    + '  ' + t('init.complete.doctor'),
-  );
+  clack.outro(t('init.complete'));
 }

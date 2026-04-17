@@ -6,9 +6,10 @@ const GLM_API_URL = 'https://bigmodel.cn/api/monitor/usage/quota/limit';
 export interface GlmQuotaInfo {
   level: string;
   tokenPercent: number;
+  tokenResetTime: string;
   timePercent: number;
   timeRemaining: number;
-  resetTime: string;
+  timeResetTime: string;
   details: Array<{ model: string; usage: number }>;
 }
 
@@ -121,9 +122,10 @@ function parseQuotaResponse(json: Record<string, unknown>): GlmQuotaInfo | null 
     return {
       level,
       tokenPercent,
+      tokenResetTime,
       timePercent,
       timeRemaining,
-      resetTime: tokenResetTime || timeResetTime,
+      timeResetTime,
       details,
     };
   } catch {
@@ -132,9 +134,16 @@ function parseQuotaResponse(json: Record<string, unknown>): GlmQuotaInfo | null 
 }
 
 /**
- * 格式化重置时间戳（毫秒）为 HH:MM
+ * 格式化重置时间戳（毫秒），今天显示 HH:MM，否则显示 YYYY-M-D HH:MM
  */
 function formatResetTime(ms: number): string {
   const d = new Date(ms);
-  return `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+  const hh = d.getHours().toString().padStart(2, '0');
+  const mm = d.getMinutes().toString().padStart(2, '0');
+  const now = new Date();
+  const isToday = d.getFullYear() === now.getFullYear()
+    && d.getMonth() === now.getMonth()
+    && d.getDate() === now.getDate();
+  if (isToday) return `${hh}:${mm}`;
+  return `${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')} ${hh}:${mm}`;
 }

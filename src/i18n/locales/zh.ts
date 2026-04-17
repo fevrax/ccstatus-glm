@@ -107,7 +107,6 @@ const zh: Record<string, string> = {
   'verify.hooks_disabled': 'disableAllHooks 已启用 — status line 将被禁用',
 
   // Init completion hints
-  'init.complete.doctor': '运行 "npx ccstatus-glm doctor" 验证安装。',
 };
 
 export default zh;
