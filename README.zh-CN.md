@@ -183,3 +183,7 @@ echo '{"model":{"display_name":"glm-5.1"},"cwd":"/tmp","context_window":{"total_
 ## 许可证
 
 [MIT](LICENSE)
+
+## 致谢
+
+本项目参考了 [zcf (UfoMiao/zcf)](https://github.com/UfoMiao/zcf) 项目。
